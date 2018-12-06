@@ -11,7 +11,7 @@ class KeyboardController;
 
 class ProcessesKeyboard {
 protected:
-	virtual void default_action(Keyboard *keyboard) = 0;
+	virtual void default_key_action(Keyboard *keyboard) = 0;
 	virtual void on_key_press(Keyboard *keyboard, unsigned char key, int x, int y) = 0;
 	virtual void on_key_release(Keyboard *keyboard, unsigned char key, int x, int y) = 0;
 
@@ -38,7 +38,7 @@ public:
 class KeyboardController {
 private: 
 	Keyboard * keyboard;
-	vdk::signal <void(Keyboard *keyboard)> m_default_action_sig;
+	vdk::signal <void(Keyboard *keyboard)> m_default_key_action_sig;
 public:
 	KeyboardController(Keyboard *keyboard) : keyboard(keyboard) {};
 
@@ -46,7 +46,7 @@ public:
 	bool disconnect(ProcessesKeyboard& kp);
 	void key_press(unsigned char key, int x, int y);
 	void key_release(unsigned char key, int x, int y);
-	void default_action();
+	void default_key_action();
 };
 }
 

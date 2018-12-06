@@ -48,7 +48,7 @@ void App::initialize(int *argc, char * argv[])
 
 	class Object : public ProcessesKeyboard {
 	protected:
-		void default_action(Keyboard *keyboard) {
+		void default_key_action(Keyboard *keyboard) {
 			std::cout << "default" << std::endl;
 		}
 

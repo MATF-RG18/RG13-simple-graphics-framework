@@ -27,17 +27,17 @@ void Keyboard::key_release(unsigned char key, int x, int y) {
 }
 
 void KeyboardController::connect(ProcessesKeyboard& kp) {
-	m_default_action_sig.connect(&kp, &ProcessesKeyboard::default_action); 
+	m_default_key_action_sig.connect(&kp, &ProcessesKeyboard::default_key_action); 
 	keyboard->connect(kp); 
 }
 
 bool KeyboardController::disconnect(ProcessesKeyboard& kp) { 
 	return keyboard->disconnect(kp) && 
-		m_default_action_sig.disconnect(&kp, &ProcessesKeyboard::default_action);
+		m_default_key_action_sig.disconnect(&kp, &ProcessesKeyboard::default_key_action);
 }
 
 void KeyboardController::key_press(unsigned char key, int x, int y) { return keyboard->key_press(key, x, y); }
 void KeyboardController::key_release(unsigned char key, int x, int y) { return keyboard->key_release(key, x, y); }
-void KeyboardController::default_action() { m_default_action_sig.emit(keyboard); }
+void KeyboardController::default_key_action() { m_default_key_action_sig.emit(keyboard); }
 
 }
