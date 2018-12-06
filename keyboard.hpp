@@ -7,20 +7,19 @@ namespace sgf {
 
 class ProcessesKeyboard;
 class Keyboard;
-class KeyboardController;
+class ControlsKeyboard;
 
 class ProcessesKeyboard {
+	friend class Keyboard;
+	friend class ControlsKeyboard;
 protected:
 	virtual void default_key_action(Keyboard *keyboard) = 0;
 	virtual void on_key_press(Keyboard *keyboard, unsigned char key, int x, int y) = 0;
 	virtual void on_key_release(Keyboard *keyboard, unsigned char key, int x, int y) = 0;
-
-	friend class Keyboard;
-	friend class KeyboardController;
-};
+	};
 
 class Keyboard {
-	friend class KeyboardController;
+	friend class ControlsKeyboard;
 private:
 	bool pressed_keys[NUM_OF_KEYS];
 	vdk::signal <void(Keyboard *keyboard, unsigned char key, int x, int y)> m_key_press_sig;
@@ -35,18 +34,20 @@ public:
 
 };
 
-class KeyboardController {
-private: 
-	Keyboard * keyboard;
+class ControlsKeyboard {
+private:
+	Keyboard keyboard;
 	vdk::signal <void(Keyboard *keyboard)> m_default_key_action_sig;
-public:
-	KeyboardController(Keyboard *keyboard) : keyboard(keyboard) {};
 
-	void connect(ProcessesKeyboard& kp);
-	bool disconnect(ProcessesKeyboard& kp);
+protected:
 	void key_press(unsigned char key, int x, int y);
 	void key_release(unsigned char key, int x, int y);
-	void default_key_action();
+	void invoke_default_key_action();
+
+public:
+	ControlsKeyboard() = default;
+	void connect_to_keyboard(ProcessesKeyboard& kp);
+	bool disconnect_from_keyboard(ProcessesKeyboard& kp);
 };
 }
 

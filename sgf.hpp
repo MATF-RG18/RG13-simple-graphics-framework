@@ -3,23 +3,17 @@
 
 #include <string>
 #include <iostream>
-#include "keyboard.hpp"
+#include "opengl_sgf.hpp"
 
 namespace sgf {
 
-class App {
+class App : public OpenGLGlutApp
+{
 private:
-	inline static App * m_running_instance = nullptr;
-
 public:
-	App() = default;
+	App() {} 
 	void initialize(int *argc, char * argv[]);
 	void run();
-
-	static App* get_runing_instance();
-
-	Keyboard keyboard;
-	KeyboardController keyboard_controller{&keyboard};
 
 protected:
 	void deinitialize();
