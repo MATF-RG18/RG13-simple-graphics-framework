@@ -1,17 +1,17 @@
 #ifndef __SGF_KEYBOARD_H__
 #define __SGF_KEYBOARD_H__
-#include "signals.h"
+#include "../dependencies/signals.h"
 #define NUM_OF_KEYS (127)
 
 namespace sgf {
 
 class ProcessesKeyboard;
 class Keyboard;
-class ControlsKeyboard;
+namespace framework {class ControlsKeyboard;}
 
 class ProcessesKeyboard {
 	friend class Keyboard;
-	friend class ControlsKeyboard;
+	friend class framework::ControlsKeyboard;
 protected:
 	virtual void default_key_action(Keyboard *keyboard) = 0;
 	virtual void on_key_press(Keyboard *keyboard, unsigned char key, int x, int y) = 0;
@@ -19,7 +19,7 @@ protected:
 	};
 
 class Keyboard {
-	friend class ControlsKeyboard;
+	friend class sgf::framework::ControlsKeyboard;
 private:
 	bool pressed_keys[NUM_OF_KEYS];
 	vdk::signal <void(Keyboard *keyboard, unsigned char key, int x, int y)> m_key_press_sig;
@@ -33,6 +33,8 @@ protected:
 public:
 
 };
+
+namespace framework { 
 
 class ControlsKeyboard {
 private:
@@ -49,6 +51,8 @@ public:
 	void connect_to_keyboard(ProcessesKeyboard& kp);
 	bool disconnect_from_keyboard(ProcessesKeyboard& kp);
 };
+}
+
 }
 
 #endif // __SGF_KEYBOARD_H__

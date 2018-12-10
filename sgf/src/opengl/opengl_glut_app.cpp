@@ -1,10 +1,11 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
-#include "opengl_sgf.hpp"
+#include "opengl/opengl_glut_app.hpp"
 
-namespace sgf {
-void OpenGLGlutApp::initialize(int *argc, char * argv[]) {
+namespace sgf::framework {
+
+void OpenGLGlutApp::v_initialize(int *argc, char * argv[]) {
 	glutInit(argc, argv);
 	glutInitWindowSize(640, 480);
 	glutCreateWindow("title");
@@ -45,13 +46,13 @@ OpenGLGlutApp* OpenGLGlutApp::get_runing_instance() {
 	return OpenGLGlutApp::m_running_instance;
 }
 
-void OpenGLGlutApp::run() {
+void OpenGLGlutApp::v_run() {
 	OpenGLGlutApp::m_running_instance = this;
 	glutMainLoop();
 }
 
 
-void OpenGLGlutApp::stop()
+void OpenGLGlutApp::v_stop()
 {
 }
 

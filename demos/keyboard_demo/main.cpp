@@ -1,3 +1,4 @@
+#include <iostream>
 #include "sgf.hpp"
 
 class Object : public sgf::ProcessesKeyboard {

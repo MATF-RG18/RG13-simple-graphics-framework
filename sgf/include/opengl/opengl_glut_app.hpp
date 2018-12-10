@@ -1,12 +1,11 @@
-#ifndef __OPENGLAPP_H__
-#define __OPENGLAPP_H__
+#ifndef __SGF_FRAMEWORK_OPENGL_GLUT_APP_H__
+#define __SGF_FRAMEWORK_OPENGL_GLUT_APP_H__
 
-#include "keyboard.hpp"
+#include "../sgf/app.hpp"
 
-namespace sgf {
+namespace sgf::framework {
 
-class OpenGLGlutApp : public ControlsKeyboard {
-
+class OpenGLGlutApp : public App {
 private:
 	inline static OpenGLGlutApp * m_running_instance = nullptr;
 	static OpenGLGlutApp* get_runing_instance();
@@ -19,12 +18,12 @@ private:
 	static void glut_on_display();
 
 protected: 
-	void initialize(int *argc, char * argv[]);
-	void run();
-	void stop();
+	void v_initialize(int *argc, char * argv[]);
+	void v_run();
+	void v_stop();
 };
 
 
 }
 
-#endif 
+#endif
