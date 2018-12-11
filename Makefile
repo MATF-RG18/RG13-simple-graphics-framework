@@ -1,7 +1,7 @@
 KEYBOARD_DEMO = keyboard_demo.out 
 
 CXX     = g++
-CXXFLAGS = -std=c++17 -I sgf/include
+CXXFLAGS = -std=c++17 #-I sgf/include
 LDLIBS  = -lglut -lGLU -lGL
 WFLAGS = -Wall -Wextra
 

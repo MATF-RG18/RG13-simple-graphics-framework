@@ -1,4 +1,4 @@
-#include "sgf/keyboard.hpp"
+#include "../../include/sgf/keyboard.hpp"
 
 namespace sgf {
 

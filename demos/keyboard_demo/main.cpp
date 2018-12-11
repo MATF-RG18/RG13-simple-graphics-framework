@@ -1,5 +1,5 @@
 #include <iostream>
-#include "sgf.hpp"
+#include "../../sgf/include/sgf.hpp"
 
 class Object : public sgf::ProcessesKeyboard {
 protected:

@@ -1,4 +1,4 @@
-#include "sgf/app.hpp"
+#include "../../include/sgf/app.hpp"
 
 namespace sgf::framework {
 

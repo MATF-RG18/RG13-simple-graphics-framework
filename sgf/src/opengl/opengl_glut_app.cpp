@@ -1,7 +1,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
-#include "opengl/opengl_glut_app.hpp"
+#include "../../include/opengl/opengl_glut_app.hpp"
 
 namespace sgf::framework {
 
