@@ -3,7 +3,7 @@ KEYBOARD_DEMO = keyboard_demo.out
 CXX     = g++
 CXXFLAGS = -std=c++17 #-I sgf/include
 LDLIBS  = -lglut -lGLU -lGL
-WFLAGS = -Wall -Wextra
+WFLAGS = -Wall -Wextra -Wno-unused
 
 H_DIR_SGF = sgf/include/sgf
 SRC_DIR_SGF = sgf/src/sgf

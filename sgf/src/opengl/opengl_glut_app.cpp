@@ -1,6 +1,4 @@
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <GL/glut.h>
+#include <GL/freeglut.h>
 #include "../../include/opengl/opengl_glut_app.hpp"
 
 namespace sgf::framework {
@@ -11,6 +9,8 @@ void OpenGLGlutApp::v_initialize(int *argc, char * argv[]) {
 	glutCreateWindow("title");
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
 
+	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE,GLUT_ACTION_CONTINUE_EXECUTION);
+	glutSetKeyRepeat(GLUT_KEY_REPEAT_OFF);
 	glutKeyboardFunc(OpenGLGlutApp::glut_on_key_press);
 	glutKeyboardUpFunc(OpenGLGlutApp::glut_on_key_release);
 	glutDisplayFunc(OpenGLGlutApp::glut_on_display);
@@ -54,6 +54,7 @@ void OpenGLGlutApp::v_run() {
 
 void OpenGLGlutApp::v_stop()
 {
+	glutLeaveMainLoop();
 }
 
 }
