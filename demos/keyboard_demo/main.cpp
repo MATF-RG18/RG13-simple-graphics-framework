@@ -18,6 +18,10 @@ protected:
 	}
 };
 
+void example_func(sgf::Keyboard * kb, unsigned char key, int x, int y) {
+	std::cout << "Release from example function " << std::endl;
+}
+
 int main(int argc, char *argv[])
 {
 	sgf::App app = sgf::App();
@@ -32,15 +36,22 @@ int main(int argc, char *argv[])
 		if (key == 27) {
 			app.stop();
 		}
-			
 	};
 
 	/* Connecting function to keyboard (on key press) so it could use it */
-	app.connect_to_on_key_press(f);
-
+	auto lambda_key_press_id = app.connect_to_on_key_press(f);
+	auto example_func_key_release_id = app.connect_to_on_key_release(example_func);
+	
 	app.run();
 
 	/* You can optionally manually disconnect it at any moment (if needed by logic)
 	 * but it is not required since App will do it automatically if you don't */
+
+	/* Disconnect by object reference */
 	app.disconnect_from_keyboard(o);
+
+	/* Static functions must be disconnected by id */
+	app.disconnect_from_on_key_press(lambda_key_press_id);
+	app.disconnect_from_on_key_press(example_func_key_release_id);
+
 };
