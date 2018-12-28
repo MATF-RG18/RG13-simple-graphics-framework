@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
 	/* Disconnect by object reference */
 	app.disconnect_from_keyboard(o);
 
-	/* Static functions must be disconnected by id */
+	/* Functions must be disconnected by id */
 	app.disconnect_from_on_key_press(lambda_key_press_id);
 	app.disconnect_from_on_key_press(example_func_key_release_id);
 

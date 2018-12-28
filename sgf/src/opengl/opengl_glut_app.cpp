@@ -1,3 +1,4 @@
+#include <iostream>
 #include <GL/freeglut.h>
 #include "../../include/opengl/opengl_glut_app.hpp"
 
@@ -13,6 +14,9 @@ void OpenGLGlutApp::v_initialize(int *argc, char * argv[]) {
 	glutSetKeyRepeat(GLUT_KEY_REPEAT_OFF);
 	glutKeyboardFunc(OpenGLGlutApp::glut_on_key_press);
 	glutKeyboardUpFunc(OpenGLGlutApp::glut_on_key_release);
+	glutMouseFunc(glut_on_mouse_button);
+	glutMotionFunc(glut_on_mouse_move);
+	glutPassiveMotionFunc(glut_on_mouse_move);
 	glutDisplayFunc(OpenGLGlutApp::glut_on_display);
 	glClearColor(0,0,0,1);
 }
@@ -27,6 +31,70 @@ void OpenGLGlutApp::glut_on_key_release(unsigned char c, int x, int y)
 {
 	OpenGLGlutApp & active_app = *OpenGLGlutApp::get_runing_instance();
 	active_app.key_release(c, x, y);
+}
+
+void OpenGLGlutApp::glut_on_mouse_button(int button, int state, int x, int y)
+{
+	OpenGLGlutApp & active_app = *OpenGLGlutApp::get_runing_instance();
+
+	if (state == GLUT_DOWN) {
+		
+		switch (button) {
+
+			case GLUT_LEFT_BUTTON : {
+				active_app.mouse_button_press(sgf::MouseButton::LEFT, x, y);
+			} break;
+
+			case GLUT_RIGHT_BUTTON : {
+				active_app.mouse_button_press(sgf::MouseButton::RIGHT, x, y);
+			} break;
+
+			case GLUT_MIDDLE_BUTTON : {
+				active_app.mouse_button_press(sgf::MouseButton::MIDDLE, x, y);
+			} break;
+
+			case 3: {
+				active_app.mouse_scroll(sgf::MouseScrollDirection::UP, x, y);
+			} break;
+
+		        case 4: {
+				active_app.mouse_scroll(sgf::MouseScrollDirection::DOWN, x, y);
+		          break;
+		        }
+	      }
+
+	} else if (state == GLUT_UP) {
+
+		switch (button) {
+
+			case GLUT_LEFT_BUTTON : {
+				active_app.mouse_button_release(sgf::MouseButton::LEFT, x, y);
+			} break;
+
+			case GLUT_RIGHT_BUTTON : {
+				active_app.mouse_button_release(sgf::MouseButton::RIGHT, x, y);
+			} break;
+
+			case GLUT_MIDDLE_BUTTON : {
+				active_app.mouse_button_release(sgf::MouseButton::MIDDLE, x, y);
+			} break;
+
+		}
+	}
+
+}
+
+static int x_old = 0;
+static int y_old = 0;
+void OpenGLGlutApp::glut_on_mouse_move(int x, int y) {
+
+	if (x == x_old && y == y_old)
+		return;
+
+	OpenGLGlutApp & active_app = *OpenGLGlutApp::get_runing_instance();
+	active_app.mouse_move(x, y, x_old, y_old);
+	x_old = x;
+	y_old = y;
 }
 
 void OpenGLGlutApp::glut_on_display()

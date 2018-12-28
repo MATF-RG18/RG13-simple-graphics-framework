@@ -16,6 +16,9 @@ private:
 	static void glut_on_key_press(unsigned char key, int x, int y);
 	static void glut_on_key_release(unsigned char key, int x, int y);
 	static void glut_on_display();
+	static void glut_on_mouse_button(int button, int state, int x, int y);
+	static void glut_on_mouse_move(int x, int y);
+	//static void glut_on_mouse_scroll(int button, int dir, int x, int y);
 
 protected: 
 	void v_initialize(int *argc, char * argv[]);

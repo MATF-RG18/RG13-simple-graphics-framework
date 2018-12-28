@@ -1,4 +1,5 @@
 KEYBOARD_DEMO = keyboard_demo.out 
+MOUSE_DEMO = mouse_demo.out 
 
 CXX     = g++
 CXXFLAGS = -std=c++17 #-I sgf/include
@@ -32,7 +33,7 @@ default:
 
 .PHONY: demos dist clean
 
-demos: $(KEYBOARD_DEMO)
+demos: $(KEYBOARD_DEMO) $(MOUSE_DEMO)
 
 DISTNAME = simple_graphics_framework
 dist: libs headers
@@ -44,6 +45,9 @@ headers:
 	@(rm headers -r ; mkdir headers ; cp sgf/include/ headers -R ; mv headers/include headers/sgf)
 
 $(KEYBOARD_DEMO): ./demos/keyboard_demo/main.cpp $(OBJ_FILES_SGF) $(OBJ_FILES_OPENGL) $(OBJ_FILES_DEPENDENCIES)
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDLIBS) $(WFLAGS)
+
+$(MOUSE_DEMO): ./demos/mouse_demo/main.cpp $(OBJ_FILES_SGF) $(OBJ_FILES_OPENGL) $(OBJ_FILES_DEPENDENCIES)
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDLIBS) $(WFLAGS)
 
 $(OBJ_DIR_SGF)/%.o: $(SRC_DIR_SGF)/%.cpp

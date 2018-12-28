@@ -56,7 +56,7 @@ void Keyboard::key_release(unsigned char key, int x, int y) {
 	m_key_release_sig.emit(this, key, x, y);
 }
 
-bool Keyboard::isPressed(char key) {
+bool Keyboard::is_pressed(char key) {
 	return pressed_keys[(int)key];
 }
 

@@ -9,14 +9,14 @@ namespace sgf {
 
 struct KeyboardConnectRetVal {
 	unsigned on_keyboard_update;
-	unsigned key_press;
-	unsigned key_release;
+	unsigned on_key_press;
+	unsigned on_key_release;
 };
 
 struct KeyboardDisconnectRetVal {
 	bool is_on_keyboard_update_disconnected;
-	bool is_key_press_disconnected;
-	bool is_key_release_disconnected;
+	bool is_on_key_press_disconnected;
+	bool is_on_key_release_disconnected;
 };
 
 class UseKeyboard;
@@ -57,7 +57,7 @@ protected:
 	bool disconnect_from_on_key_release(unsigned id);
 
 public:
-	bool isPressed(char key);
+	bool is_pressed(char key);
 
 };
 
