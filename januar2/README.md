@@ -1,5 +1,3 @@
-# Sense File e(X)plorer (RG26-sensefx)
-
 # Space climbing
 [](examples_img/space_climbing.png?raw=true)
 - Uradjeno u roku januar2 2018.
