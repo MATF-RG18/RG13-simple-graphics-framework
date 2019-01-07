@@ -11,10 +11,10 @@ OBJ_FILES = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES))
 
 all: $(PROGRAM1) $(PROGRAM2)
 
-$(PROGRAM1): $(OBJ_FILES)
+$(PROGRAM1): $(OBJ_FILES) spaceClimbing.cpp
 	$(CXX) $(CXXFLAGS) -o $(PROGRAM1) spaceClimbing.cpp $(OBJ_FILES) $(LDLIBS) $(WFLAGS)
 
-$(PROGRAM2): $(OBJ_FILES)
+$(PROGRAM2): $(OBJ_FILES) senseFX.cpp
 	$(CXX) $(CXXFLAGS) -o $(PROGRAM2) senseFX.cpp $(OBJ_FILES) $(LDLIBS) $(WFLAGS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp

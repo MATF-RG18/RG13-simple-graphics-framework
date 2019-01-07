@@ -134,7 +134,7 @@ int main(int argc, char * argv[])
 	globalData.lights["light2"].enable();
 	globalData.lights["light3"].enable();
 	globalData.lights["light4"].enable();
-	globalData.lights["light5"].enable();
+	//globalData.lights["light5"].enable();
 	
 	std::string dirPath = argv[1];
 
