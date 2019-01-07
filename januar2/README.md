@@ -1,5 +1,5 @@
 # Space climbing
-![space climbing][(examples_img/space_climbing.png?raw=true)]
+![space climbing](examples_img/space_climbing.png?raw=true)
 - Uradjeno u roku januar2 2018.
 - Cilj simulacije je doci od starta do cilja u sto kracem roku.
 - Cilj je kocka sa 'finish' teksturom.
