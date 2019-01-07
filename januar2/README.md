@@ -1,7 +1,7 @@
 # Sense File e(X)plorer (RG26-sensefx)
 
 # Space climbing
-[](examples_img/space_climbing.img?raw=true)
+[](examples_img/space_climbing.png?raw=true)
 - Uradjeno u roku januar2 2018.
 - Cilj simulacije je doci od starta do cilja u sto kracem roku.
 - Cilj je kocka sa 'finish' teksturom.
