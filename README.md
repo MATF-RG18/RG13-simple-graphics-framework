@@ -11,4 +11,4 @@ U novom frameworku za sada je uradjeno:
 - Struktuiran kod (potpuno odvajanje logike od OpenGL biblioteke).
 - Konektovanje objekata na mis i tastaturu. (Signali i Slotovi u pozadini).
 - Za pregled dosadasnjeg pregledati demos direktorijum
-- Demo direktorijum se build-uje sa `Make demos`.
+- Demo direktorijum se build-uje sa `make demos`.
