@@ -33,7 +33,7 @@ ili za staru simulaciju
 | ---------------- |:--------------------------------:|
 | w,s,a,d          | Kretanje                         |
 | h,j,k,l          | Rotiranje kamere                 |
-| e                | Ulazak u direktorijum            |
+| e                | Ulazak u direktorijum (SenseFX)  |
 | space            | Skok                             |
 | f                | Uključivanje/Isključivanje lampe |
 | p                | Pauziraj/Nastavi izvršavanje     |
