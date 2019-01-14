@@ -27,3 +27,5 @@
 - Demo direktorijum se build-uje sa `make demos`.
 
 Za više informacija posetiti: [wiki](https://github.com/MATF-RG18/RG13-simple-graphics-framework/wiki) stranu projekta.
+
+Nedeljne izveštaje možete pronaći ![ovde](https://github.com/MATF-RG18/RG13-simple-graphics-framework/wiki/Development-journal).
