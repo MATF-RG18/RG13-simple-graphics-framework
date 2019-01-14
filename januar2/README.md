@@ -48,6 +48,11 @@ ili za staru simulaciju
 
     configs/mouse.cfg
 
+# Sense FX ( Stara simulacija )
+[![not found](examples_img/yt-thumbnail.png?raw=true)](https://www.youtube.com/watch?v=HEGZIUWtsqQ)
+
+**YouTube demo snimak:** [link](https://www.youtube.com/watch?v=HEGZIUWtsqQ)
+
 ## Izgled prostorije (sobe) 
 Izgled sobe target_dir se podešava u config fajlu: `target_dir/sensefx.cfg`, pogledati detaljan primer u [Wiki](https://github.com/MATF-RG17/RG026-sensefx/wiki) sekciji projekta.
 
@@ -58,12 +63,3 @@ Izgled sobe target_dir se podešava u config fajlu: `target_dir/sensefx.cfg`, po
 ## Preuzet kod (tuđi):
 * Kod za učitavanje .bmp fajlova (image.h i image.cpp): [imgloader](http://poincare.matf.bg.ac.rs/~ivan/files/rg/vezbe/07/32_texture.tar.bz2)
 * Kod za učitavanje .obj fajlova (objloader.h i objloader.cpp): [objloader](https://github.com/huamulan/OpenGL-tutorial/blob/master/common)
-
-# Sense FX ( Stara simulacija )
-[![not found](examples_img/yt-thumbnail.png?raw=true)](https://www.youtube.com/watch?v=HEGZIUWtsqQ)
-
-**YouTube demo snimak:** [link](https://www.youtube.com/watch?v=HEGZIUWtsqQ)
-
-**MP4 demo snimak:** Postoji i demo snimak u mp4 formatu rezolucije 800x600 koji se nalazi u direktorijumu projekta examples_video.
-
-
