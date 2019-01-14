@@ -1,8 +1,8 @@
 # Space climbing ( Nova simulacija )
 ![space climbing](examples_img/space_climbing.png?raw=true)
-- Space climbing je interaktivna 3d igra, cilj igre je doći od početne platforme do krajnje platofrme penjanjem naviše. Krajnja platforma je kocka sa 'finish' teksturom.
-- Simulacija je urađena kao projekat iz kursa računarska grafika u januaru2 2018.
+ Space climbing je interaktivna 3d igra, cilj igre je doći od početne platforme do krajnje platofrme penjanjem naviše. Krajnja platforma je kocka sa 'finish' teksturom.
 
+ Simulacija je urađena kao projekat iz kursa računarska grafika u januaru2 2018.
 Za više informacija i `changelog` posetiti: [wiki](https://github.com/MATF-RG18/RG13-simple-graphics-framework/wiki) stranu projekta.
 
 ## Requirements
