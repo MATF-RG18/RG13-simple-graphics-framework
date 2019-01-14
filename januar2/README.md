@@ -1,16 +1,9 @@
-# Space climbing
+# Space climbing ( Nova simulacija )
 ![space climbing](examples_img/space_climbing.png?raw=true)
-- Uradjeno u roku januar2 2018.
-- Cilj simulacije je doci od starta do cilja u sto kracem roku.
-- Cilj je kocka sa 'finish' teksturom.
-- Do cilja se moze doci penjanjem navise.
+- Space climbing je interaktivna 3d igra, cilj igre je doći od početne platforme do krajnje platofrme penjanjem naviše. Krajnja platforma je kocka sa 'finish' teksturom.
+- Simulacija je urađena kao projekat iz kursa računarska grafika u januaru2 2018.
 
-# Sense FX
-[![not found](examples_img/yt-thumbnail.png?raw=true)](https://www.youtube.com/watch?v=HEGZIUWtsqQ)
-
-**YouTube demo snimak:** [link](https://www.youtube.com/watch?v=HEGZIUWtsqQ)
-
-**MP4 demo snimak:** Postoji i demo snimak u mp4 formatu rezolucije 800x600 koji se nalazi u direktorijumu projekta examples_video.
+Za više informacija i `changelog` posetiti: [wiki](https://github.com/MATF-RG18/RG13-simple-graphics-framework/wiki) stranu projekta.
 
 ## Requirements
    Linux, [g++ (c++17)](https://gcc.gnu.org/), [OpenGL](https://www.opengl.org/), [glut](https://www.opengl.org/resources/libraries/glut/)
@@ -26,7 +19,8 @@ Shell programom doći u direktorijum projekta i ukucati: `make`
 
 ## Primer pokretanja programa
 U direktorijumu projekta ukucati:
-     `./spaceClimbing
+     `./spaceClimbing`
+ili za staru simulaciju
      `./senseFX demo_directory`
 
 ## Kontrole
@@ -64,5 +58,11 @@ Izgled sobe target_dir se podešava u config fajlu: `target_dir/sensefx.cfg`, po
 * Kod za učitavanje .bmp fajlova (image.h i image.cpp): [imgloader](http://poincare.matf.bg.ac.rs/~ivan/files/rg/vezbe/07/32_texture.tar.bz2)
 * Kod za učitavanje .obj fajlova (objloader.h i objloader.cpp): [objloader](https://github.com/huamulan/OpenGL-tutorial/blob/master/common)
 
-## INFO
-Za više informacija posetiti Wiki sekciju projekta: [Wiki](https://github.com/MATF-RG17/RG026-sensefx/wiki)
+# Sense FX ( Stara simulacija )
+[![not found](examples_img/yt-thumbnail.png?raw=true)](https://www.youtube.com/watch?v=HEGZIUWtsqQ)
+
+**YouTube demo snimak:** [link](https://www.youtube.com/watch?v=HEGZIUWtsqQ)
+
+**MP4 demo snimak:** Postoji i demo snimak u mp4 formatu rezolucije 800x600 koji se nalazi u direktorijumu projekta examples_video.
+
+
