@@ -1,7 +1,8 @@
 #include <iostream>
 #include "../../sgf/include/sgf.hpp"
 
-class Object : public sgf::UseKeyboard {
+class Object : 	public sgf::Entity,
+		public sgf::UseKeyboard {
 protected:
 
 	/* User should define default action regards to pressed keys - Required by UseKeyboard */
@@ -16,7 +17,14 @@ protected:
 	void on_key_release(sgf::Keyboard *keyboard, unsigned char key, int x, int y) {
 		std::cout << "Released " << key << " from obj at position: (" << x << ", " << y << ")" << std::endl;
 	}
+public:
+sgf::App& operator >> (sgf::App& app) {
+	app.connect_to_keyboard(*this);
+	return app;
+}
+
 };
+
 
 void example_func(sgf::Keyboard * kb, unsigned char key, int x, int y) {
 	std::cout << "Release from example function " << std::endl;
@@ -29,7 +37,8 @@ int main(int argc, char *argv[])
 	
 	Object o;
 	/* Connecting object to keyboard so it could use it */
-	app.connect_to_keyboard(o);
+	/* Insering object data to app, by overloaded >> operator */
+	o >> app;
 
 	/* Defining lambda to be passed and executed on_key_press */
 	auto f = [&] (sgf::Keyboard * kb, unsigned char key, int x, int y) -> void {

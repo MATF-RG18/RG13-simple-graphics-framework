@@ -1,7 +1,8 @@
 #include <iostream>
 #include "../../sgf/include/sgf.hpp"
 
-class Object : public sgf::UseMouse {
+class Object :	public sgf::Entity, 
+		public sgf::UseMouse {
 protected:
 
 	void on_mouse_update(sgf::Mouse *mouse) {
@@ -24,6 +25,12 @@ protected:
 		std::cout << "scroll dir: " << (int) dir << " from obj at position: (" << x << ", " <<  y << ")" << std::endl;
 	}
 
+public:
+sgf::App &operator >> (sgf::App& app) {
+	app.connect_to_mouse(*this);
+	return app;
+}
+
 
 };
 
@@ -37,8 +44,8 @@ int main(int argc, char *argv[])
 	app.initialize(&argc, argv);   
 	
 	Object o;
-	/* Connecting object to mouse so it could use it */
-	app.connect_to_mouse(o);
+	/* Connecting object to app (with overloaded >> operator) */
+	o >> app;
 
 	/* Defining lambda to be passed and executed on_mouse_button_press */
 	auto f = [&] (sgf::Mouse * mouse, sgf::MouseButton button, int x, int y) -> void {
