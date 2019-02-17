@@ -61,4 +61,6 @@ int main(int argc, char *argv[])
 	/* Functions must be disconnected by id */
 	app.sig_keyboard_key_pressed.disconnect(lambda_key_press_id);
 	app.sig_keyboard_key_released.disconnect(example_func_key_release_id);
+
+	return 0;
 };

@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 	e >> app;
 
 	/* Defining lambda to be passed and executed on_mouse_button_press */
-	auto f = [&] (const sgf::Mouse &mouse, sgf::MouseButton button, int x, int y) -> void {
+	auto f = [] (const sgf::Mouse &mouse, sgf::MouseButton button, int x, int y) -> void {
 		if (button == sgf::MouseButton::MIDDLE) {
 			std::cout << "Pressed middle from lambda at (" << x << ", " << y << ")" << std::endl;
 		}
@@ -70,4 +70,5 @@ int main(int argc, char *argv[])
 	app.sig_mouse_button_pressed.disconnect(lambda_key_press_id);
 	app.sig_mouse_button_released.disconnect(example_func_key_release_id);
 
+	return 0;
 };
