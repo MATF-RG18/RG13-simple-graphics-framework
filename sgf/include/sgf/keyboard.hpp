@@ -59,9 +59,9 @@ protected:
 	void keyboard_invoke_update();
 
 public:
-	vdk::signal <void(const Keyboard &keyboard)> sig_keyboard_update;
-	vdk::signal <void(const Keyboard &keyboard, unsigned char key, int x, int y)> sig_keyboard_key_pressed;
-	vdk::signal <void(const Keyboard &keyboard, unsigned char key, int x, int y)> sig_keyboard_key_released;
+	vdk::signal<void(const Keyboard &keyboard)> sig_keyboard_update;
+	vdk::signal<void(const Keyboard &keyboard, unsigned char key, int x, int y)> sig_keyboard_key_pressed;
+	vdk::signal<void(const Keyboard &keyboard, unsigned char key, int x, int y)> sig_keyboard_key_released;
 
 	KeyboardConnectRetVal connect_to_keyboard(UseKeyboard& uk);
 	KeyboardDisconnectRetVal disconnect_from_keyboard(UseKeyboard& uk);

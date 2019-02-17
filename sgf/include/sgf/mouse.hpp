@@ -70,11 +70,11 @@ protected:
 	void mouse_invoke_update();
 
 public:
-	vdk::signal <void(const Mouse &mouse)> sig_mouse_update;
-	vdk::signal <void(const Mouse &mouse, int x, int y, int x_old, int y_old)> sig_mouse_moved;
-	vdk::signal <void(const Mouse &mouse, MouseButton button, int x, int y)> sig_mouse_button_pressed;
-	vdk::signal <void(const Mouse &mouse, MouseButton button, int x, int y)> sig_mouse_button_released;
-	vdk::signal <void(const Mouse &mouse, MouseScrollDirection dir, int x, int y)> sig_mouse_scroll;
+	vdk::signal<void(const Mouse &mouse)> sig_mouse_update;
+	vdk::signal<void(const Mouse &mouse, int x, int y, int x_old, int y_old)> sig_mouse_moved;
+	vdk::signal<void(const Mouse &mouse, MouseButton button, int x, int y)> sig_mouse_button_pressed;
+	vdk::signal<void(const Mouse &mouse, MouseButton button, int x, int y)> sig_mouse_button_released;
+	vdk::signal<void(const Mouse &mouse, MouseScrollDirection dir, int x, int y)> sig_mouse_scroll;
 
 	ControlsMouse() = default;
 	MouseConnectRetVal connect_to_mouse(UseMouse& um);

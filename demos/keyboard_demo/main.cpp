@@ -25,7 +25,6 @@ sgf::App& operator >> (sgf::App& app) {
 
 };
 
-
 void example_func(const sgf::Keyboard & kb, unsigned char key, int x, int y) {
 	std::cout << "Released " << key << " from example function " << std::endl;
 }
