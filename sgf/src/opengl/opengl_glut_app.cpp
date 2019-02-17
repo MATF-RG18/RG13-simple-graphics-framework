@@ -24,13 +24,13 @@ void OpenGLGlutApp::v_initialize(int *argc, char * argv[]) {
 void OpenGLGlutApp::glut_on_key_press(unsigned char c, int x, int y)
 {
 	OpenGLGlutApp & active_app = *OpenGLGlutApp::get_runing_instance();
-	active_app.key_press(c, x, y);
+	active_app.keyboard_press_key(c, x, y);
 }
 
 void OpenGLGlutApp::glut_on_key_release(unsigned char c, int x, int y)
 {
 	OpenGLGlutApp & active_app = *OpenGLGlutApp::get_runing_instance();
-	active_app.key_release(c, x, y);
+	active_app.keyboard_release_key(c, x, y);
 }
 
 void OpenGLGlutApp::glut_on_mouse_button(int button, int state, int x, int y)
@@ -38,19 +38,19 @@ void OpenGLGlutApp::glut_on_mouse_button(int button, int state, int x, int y)
 	OpenGLGlutApp & active_app = *OpenGLGlutApp::get_runing_instance();
 
 	if (state == GLUT_DOWN) {
-		
+
 		switch (button) {
 
 			case GLUT_LEFT_BUTTON : {
-				active_app.mouse_button_press(sgf::MouseButton::LEFT, x, y);
+				active_app.mouse_press_button(sgf::MouseButton::LEFT, x, y);
 			} break;
 
 			case GLUT_RIGHT_BUTTON : {
-				active_app.mouse_button_press(sgf::MouseButton::RIGHT, x, y);
+				active_app.mouse_press_button(sgf::MouseButton::RIGHT, x, y);
 			} break;
 
 			case GLUT_MIDDLE_BUTTON : {
-				active_app.mouse_button_press(sgf::MouseButton::MIDDLE, x, y);
+				active_app.mouse_press_button(sgf::MouseButton::MIDDLE, x, y);
 			} break;
 
 			case 3: {
@@ -68,15 +68,15 @@ void OpenGLGlutApp::glut_on_mouse_button(int button, int state, int x, int y)
 		switch (button) {
 
 			case GLUT_LEFT_BUTTON : {
-				active_app.mouse_button_release(sgf::MouseButton::LEFT, x, y);
+				active_app.mouse_release_button(sgf::MouseButton::LEFT, x, y);
 			} break;
 
 			case GLUT_RIGHT_BUTTON : {
-				active_app.mouse_button_release(sgf::MouseButton::RIGHT, x, y);
+				active_app.mouse_release_button(sgf::MouseButton::RIGHT, x, y);
 			} break;
 
 			case GLUT_MIDDLE_BUTTON : {
-				active_app.mouse_button_release(sgf::MouseButton::MIDDLE, x, y);
+				active_app.mouse_release_button(sgf::MouseButton::MIDDLE, x, y);
 			} break;
 
 		}

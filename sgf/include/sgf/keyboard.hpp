@@ -1,16 +1,17 @@
 #ifndef __SGF_KEYBOARD_H__
 #define __SGF_KEYBOARD_H__
-#include <utility>
-#include <functional>
+#include <unordered_map>
+
 #include "../dependencies/signals.h"
-#define NUM_OF_KEYS (127)
 
 namespace sgf {
 
+/* Small data containing structures */
+/* Return values of connect/disconnect */
 struct KeyboardConnectRetVal {
-	unsigned on_keyboard_update;
-	unsigned on_key_press;
-	unsigned on_key_release;
+	unsigned on_keyboard_update_id;
+	unsigned on_key_press_id;
+	unsigned on_key_release_id;
 };
 
 struct KeyboardDisconnectRetVal {
@@ -19,80 +20,51 @@ struct KeyboardDisconnectRetVal {
 	bool is_on_key_release_disconnected;
 };
 
+
 class UseKeyboard;
 class Keyboard;
 namespace framework {class ControlsKeyboard;}
 
 class UseKeyboard {
-	friend class Keyboard;
-	friend class framework::ControlsKeyboard;
+friend framework::ControlsKeyboard;
 protected:
-	virtual void on_keyboard_update(Keyboard *keyboard) = 0;
-	virtual void on_key_press(Keyboard *keyboard, unsigned char key, int x, int y) = 0;
-	virtual void on_key_release(Keyboard *keyboard, unsigned char key, int x, int y) = 0;
-	};
+	virtual void on_keyboard_update(const Keyboard &keyboard) = 0;
+	virtual void on_keyboard_key_press(const Keyboard &keyboard, unsigned char key, int x, int y) = 0;
+	virtual void on_keyboard_key_release(const Keyboard &keyboard, unsigned char key, int x, int y) = 0;
+};
 
 class Keyboard {
-	friend class sgf::framework::ControlsKeyboard;
+friend class framework::ControlsKeyboard;
 private:
-	bool pressed_keys[NUM_OF_KEYS];
-	vdk::signal <void(Keyboard *keyboard, unsigned char key, int x, int y)> m_key_press_sig;
-	vdk::signal <void(Keyboard *keyboard, unsigned char key, int x, int y)> m_key_release_sig;
+	std::unordered_map<unsigned char, bool> m_pressed_keys;
 
 protected:
-	void key_press(unsigned char key, int x, int y);
-	void key_release(unsigned char key, int x, int y);
-
-	std::tuple<unsigned, unsigned> connect(UseKeyboard& kp);
-	std::tuple<bool, bool> disconnect(UseKeyboard& kp);
-	unsigned connect_to_on_key_press(UseKeyboard& kp);
-	bool disconnect_from_on_key_press(UseKeyboard& kp);
-	unsigned connect_to_on_key_release(UseKeyboard& kp);
-	bool disconnect_from_on_key_release(UseKeyboard& kp);
-
-	unsigned connect_to_on_key_press(std::function<void(Keyboard*, unsigned char key, int x, int y)> f);
-	bool disconnect_from_on_key_press(unsigned id);
-
-	unsigned connect_to_on_key_release(std::function<void(Keyboard*, unsigned char key, int x, int y)> f);
-	bool disconnect_from_on_key_release(unsigned id);
+	void press_key(unsigned char key);
+	void release_key(unsigned char key);
 
 public:
 	bool is_pressed(char key);
 
 };
 
-namespace framework { 
+namespace framework {
 
 class ControlsKeyboard {
 private:
-	Keyboard keyboard;
-	vdk::signal <void(Keyboard *keyboard)> m_update_keyboard_sig;
+	Keyboard m_keyboard;
 
 protected:
-	void key_press(unsigned char key, int x, int y);
-	void key_release(unsigned char key, int x, int y);
-	void invoke_keyboard_update();
+	void keyboard_press_key(unsigned char key, int x, int y);
+	void keyboard_release_key(unsigned char key, int x, int y);
+	void keyboard_invoke_update();
 
 public:
-	ControlsKeyboard() = default;
-	KeyboardConnectRetVal connect_to_keyboard(UseKeyboard& kp);
-	KeyboardDisconnectRetVal disconnect_from_keyboard(UseKeyboard& kp);
+	vdk::signal <void(const Keyboard &keyboard)> sig_keyboard_update;
+	vdk::signal <void(const Keyboard &keyboard, unsigned char key, int x, int y)> sig_keyboard_key_pressed;
+	vdk::signal <void(const Keyboard &keyboard, unsigned char key, int x, int y)> sig_keyboard_key_released;
 
-	unsigned connect_to_on_keyboard_update(UseKeyboard& kp);
-	bool disconnect_from_on_keyboard_update(UseKeyboard& kp);
-	unsigned connect_to_on_key_press(UseKeyboard& kp);
-	bool disconnect_from_on_key_press(UseKeyboard& kp);
-	unsigned connect_to_on_key_release(UseKeyboard& kp);
-	bool disconnect_from_on_key_release(UseKeyboard& kp);
-
-	unsigned connect_to_on_keyboard_update(std::function<void(Keyboard*)> f);
-	bool disconnect_from_on_keyboard_update(unsigned id);
-
-	unsigned connect_to_on_key_press(std::function<void(Keyboard*, unsigned char key, int x, int y)> f);
-	bool disconnect_from_on_key_press(unsigned id);
-
-	unsigned connect_to_on_key_release(std::function<void(Keyboard*, unsigned char key, int x, int y)> f);
-	bool disconnect_from_on_key_release(unsigned id);
+	KeyboardConnectRetVal connect_to_keyboard(UseKeyboard& uk);
+	KeyboardDisconnectRetVal disconnect_from_keyboard(UseKeyboard& uk);
 };
 }
 

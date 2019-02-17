@@ -6,8 +6,8 @@
 
 namespace sgf::framework {
 
-class App : public ControlsKeyboard, 
-	    public ControlsMouse 
+class App : public ControlsKeyboard,
+	    public ControlsMouse
 {
 private:
 protected:

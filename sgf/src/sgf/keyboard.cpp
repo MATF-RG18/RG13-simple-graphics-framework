@@ -2,122 +2,50 @@
 
 namespace sgf {
 
-std::tuple <unsigned, unsigned> Keyboard::connect(UseKeyboard& kp) {
-	return std::make_tuple(
-		connect_to_on_key_press(kp),
-		connect_to_on_key_release(kp)
-	);
+/* --------- Keyboard --------- */
+void Keyboard::press_key(unsigned char key) {
+	m_pressed_keys[key] = true;
 }
 
-unsigned Keyboard::connect_to_on_key_press(UseKeyboard& kp) {
-	return m_key_press_sig.connect(&kp, &UseKeyboard::on_key_press);
-}
-
-unsigned Keyboard::connect_to_on_key_release(UseKeyboard& kp) {
-	return m_key_release_sig.connect(&kp, &UseKeyboard::on_key_release);
-}
-
-bool Keyboard::disconnect_from_on_key_press(UseKeyboard& kp) {
-	return m_key_press_sig.disconnect(&kp, &UseKeyboard::on_key_press);
-}
-
-bool Keyboard::disconnect_from_on_key_release(UseKeyboard& kp) {
-	return m_key_release_sig.disconnect(&kp, &UseKeyboard::on_key_release);
-}
-
-unsigned Keyboard::connect_to_on_key_press(std::function<void(Keyboard*, unsigned char key, int x, int y)> f) {
-	return m_key_press_sig.connect(f);
-}
-
-bool Keyboard::disconnect_from_on_key_press(unsigned id) {
-	return m_key_press_sig.disconnect(id);
-}
-
-unsigned Keyboard::connect_to_on_key_release(std::function<void(Keyboard*, unsigned char key, int x, int y)> f) {
-	return m_key_release_sig.connect(f);
-}
-bool Keyboard::disconnect_from_on_key_release(unsigned id) {
-	return m_key_release_sig.disconnect(id);
-}
-
-
-std::tuple <bool, bool> Keyboard::disconnect(UseKeyboard& kp) {
-	return std::make_tuple(disconnect_from_on_key_press(kp),
-	disconnect_from_on_key_release(kp));
-}
-
-void Keyboard::key_press(unsigned char key, int x, int y) {
-	pressed_keys[(int)key] = true;
-	m_key_press_sig.emit(this, key, x, y);
-}
-
-void Keyboard::key_release(unsigned char key, int x, int y) {
-	pressed_keys[(int)key] = false;
-	m_key_release_sig.emit(this, key, x, y);
+void Keyboard::release_key(unsigned char key) {
+	m_pressed_keys[key] = false;
 }
 
 bool Keyboard::is_pressed(char key) {
-	return pressed_keys[(int)key];
+	if (m_pressed_keys.find(key) != m_pressed_keys.end())
+		return m_pressed_keys[key];
+	return false;
 }
 
-KeyboardConnectRetVal framework::ControlsKeyboard::connect_to_keyboard(UseKeyboard& kp) {
-	auto up_id = connect_to_on_keyboard_update(kp);
-	auto k_ids = keyboard.connect(kp); 
-	return KeyboardConnectRetVal{up_id, std::get<0>(k_ids), std::get<1>(k_ids)};
+/* --------- ControlsKeyboard --------- */
+void framework::ControlsKeyboard::keyboard_press_key(unsigned char key, int x, int y) {
+	m_keyboard.press_key(key);
+	sig_keyboard_key_pressed.emit(m_keyboard, key, x, y);
 }
 
-KeyboardDisconnectRetVal framework::ControlsKeyboard::disconnect_from_keyboard(UseKeyboard& kp) { 
-	 auto up_id = disconnect_from_on_keyboard_update(kp);
-	 auto k_ids = keyboard.disconnect(kp);
-	 return KeyboardDisconnectRetVal{up_id, std::get<0>(k_ids), std::get<1>(k_ids)};
+void framework::ControlsKeyboard::keyboard_release_key(unsigned char key, int x, int y) {
+	m_keyboard.release_key(key);
+	sig_keyboard_key_released.emit(m_keyboard, key, x, y);
 }
 
-unsigned framework::ControlsKeyboard::connect_to_on_keyboard_update(UseKeyboard& kp) {
-	return m_update_keyboard_sig.connect(&kp, &UseKeyboard::on_keyboard_update); 
+void framework::ControlsKeyboard::keyboard_invoke_update() {
+	sig_keyboard_update.emit(m_keyboard);
 }
 
-bool framework::ControlsKeyboard::disconnect_from_on_keyboard_update(UseKeyboard& kp) {
-	return m_update_keyboard_sig.disconnect(&kp, &UseKeyboard::on_keyboard_update);
+KeyboardConnectRetVal framework::ControlsKeyboard::connect_to_keyboard(UseKeyboard& uk) {
+	unsigned key_press_id = sig_keyboard_key_pressed.connect(&uk, &UseKeyboard::on_keyboard_key_press);
+	unsigned key_release_id = sig_keyboard_key_released.connect(&uk, &UseKeyboard::on_keyboard_key_release);
+	unsigned update_keyboard_id = sig_keyboard_update.connect(&uk, &UseKeyboard::on_keyboard_update);
+
+	return {key_press_id, key_release_id, update_keyboard_id};
 }
 
-unsigned framework::ControlsKeyboard::connect_to_on_key_press(UseKeyboard& kp) {
-	return keyboard.connect_to_on_key_press(kp);
-}
-bool framework::ControlsKeyboard::disconnect_from_on_key_press(UseKeyboard& kp) {
-	return keyboard.disconnect_from_on_key_press(kp);	
-}
+KeyboardDisconnectRetVal framework::ControlsKeyboard::disconnect_from_keyboard(UseKeyboard& uk) {
+	bool key_press_chk = sig_keyboard_key_pressed.disconnect(&uk, &UseKeyboard::on_keyboard_key_press);
+	bool key_release_chk = sig_keyboard_key_released.disconnect(&uk, &UseKeyboard::on_keyboard_key_release);
+	bool update_keyboard_chk = sig_keyboard_update.disconnect(&uk, &UseKeyboard::on_keyboard_update);
 
-unsigned framework::ControlsKeyboard::connect_to_on_key_release(UseKeyboard& kp) {
-	return keyboard.connect_to_on_key_release(kp);
+	return {key_press_chk, key_release_chk, update_keyboard_chk};
 }
-
-bool framework::ControlsKeyboard::disconnect_from_on_key_release(UseKeyboard& kp) {
-	return keyboard.disconnect_from_on_key_release(kp);
-}
-
-unsigned framework::ControlsKeyboard::connect_to_on_keyboard_update(std::function<void(Keyboard*)> f) {
-	return m_update_keyboard_sig.connect(f);
-}
-bool framework::ControlsKeyboard::disconnect_from_on_keyboard_update(unsigned id) {
-	return m_update_keyboard_sig.disconnect(id);
-}
-
-unsigned framework::ControlsKeyboard::connect_to_on_key_press(std::function<void(Keyboard*, unsigned char key, int x, int y)> f) {
-	return keyboard.connect_to_on_key_press(f);
-}
-bool framework::ControlsKeyboard::disconnect_from_on_key_press(unsigned id) {
-	return keyboard.disconnect_from_on_key_press(id);
-}
-
-unsigned framework::ControlsKeyboard::connect_to_on_key_release(std::function<void(Keyboard*, unsigned char key, int x, int y)> f) {
-	return keyboard.connect_to_on_key_release(f);
-}
-bool framework::ControlsKeyboard::disconnect_from_on_key_release(unsigned id) {
-	return keyboard.disconnect_from_on_key_release(id);
-}
-
-void framework::ControlsKeyboard::key_press(unsigned char key, int x, int y) { return keyboard.key_press(key, x, y); }
-void framework::ControlsKeyboard::key_release(unsigned char key, int x, int y) { return keyboard.key_release(key, x, y); }
-void framework::ControlsKeyboard::invoke_keyboard_update() { m_update_keyboard_sig.emit(&keyboard); } 
 
 }
