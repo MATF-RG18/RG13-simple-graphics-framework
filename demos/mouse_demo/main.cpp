@@ -5,24 +5,27 @@ class Example :	public sgf::Entity,
 		public sgf::UseMouse {
 protected:
 
-	void on_mouse_update(const sgf::Mouse &mouse) {
-		std::cout << "default" << std::endl;
-	}
-
-	void on_mouse_move(const sgf::Mouse &mouse, int x, int y, int x_old, int y_old) {
+	void on_mouse_move(int x, int y, int x_old, int y_old) {
 		std::cout << "Moved from (" << x_old << ", " << y_old << ") to (" << x << ", " << y << ")" << std::endl;
 	}
 
-	void on_mouse_button_press(const sgf::Mouse &mouse, sgf::MouseButton button, int x, int y) {
+	void on_mouse_button_press(sgf::MouseButton button, int x, int y) {
 		std::cout << "Pressed " << (int) button << " from obj at position: (" << x << ", " <<  y << ")" << std::endl;
 	}
 
-	void on_mouse_button_release(const sgf::Mouse &mouse, sgf::MouseButton button, int x, int y) {
+	void on_mouse_button_release(sgf::MouseButton button, int x, int y) {
 		std::cout << "Pressed " << (int) button << " from obj at position: (" << x << ", " <<  y << ")" << std::endl;
 	}
 
-	void on_mouse_scroll(const sgf::Mouse &mouse, sgf::MouseScrollDirection dir, int x, int y) {
+	void on_mouse_scroll(sgf::MouseScrollDirection dir, int x, int y) {
 		std::cout << "scroll dir: " << (int) dir << " from obj at position: (" << x << ", " <<  y << ")" << std::endl;
+	}
+
+	void update() {
+		/* User have keyboard state object to use */
+		if (this->mouse.is_pressed(sgf::MouseButton::LEFT)) {
+			std::cout << "Left click is pressed (chk from Example obj)." << std::endl;
+		}
 	}
 
 public:
@@ -31,10 +34,9 @@ sgf::App &operator >> (sgf::App& app) {
 	return app;
 }
 
-
 };
 
-void example_func(const sgf::Mouse &mouse, sgf::MouseScrollDirection dir, int x, int y) {
+void example_func(sgf::MouseScrollDirection dir, int x, int y) {
 	std::cout << "scroll dir: " << (int) dir << " from example_func at position: (" << x << ", " <<  y << ")" << std::endl;
 }
 
@@ -48,7 +50,7 @@ int main(int argc, char *argv[])
 	e >> app;
 
 	/* Defining lambda to be passed and executed on_mouse_button_press */
-	auto f = [] (const sgf::Mouse &mouse, sgf::MouseButton button, int x, int y) -> void {
+	auto f = [] (sgf::MouseButton button, int x, int y) -> void {
 		if (button == sgf::MouseButton::MIDDLE) {
 			std::cout << "Pressed middle from lambda at (" << x << ", " << y << ")" << std::endl;
 		}

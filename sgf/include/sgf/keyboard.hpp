@@ -9,13 +9,11 @@ namespace sgf {
 /* Small data containing structures */
 /* Return values of connect/disconnect */
 struct KeyboardConnectRetVal {
-	unsigned on_keyboard_update_id;
 	unsigned on_key_press_id;
 	unsigned on_key_release_id;
 };
 
 struct KeyboardDisconnectRetVal {
-	bool is_on_keyboard_update_disconnected;
 	bool is_on_key_press_disconnected;
 	bool is_on_key_release_disconnected;
 };
@@ -28,9 +26,10 @@ namespace framework {class ControlsKeyboard;}
 class UseKeyboard {
 friend framework::ControlsKeyboard;
 protected:
-	virtual void on_keyboard_update(const Keyboard &keyboard) = 0;
-	virtual void on_keyboard_key_press(const Keyboard &keyboard, unsigned char key, int x, int y) = 0;
-	virtual void on_keyboard_key_release(const Keyboard &keyboard, unsigned char key, int x, int y) = 0;
+	static const Keyboard &keyboard;
+
+	virtual void on_keyboard_key_press(unsigned char key, int x, int y) = 0;
+	virtual void on_keyboard_key_release(unsigned char key, int x, int y) = 0;
 };
 
 class Keyboard {
@@ -43,7 +42,7 @@ protected:
 	void release_key(unsigned char key);
 
 public:
-	bool is_pressed(char key);
+	bool is_pressed(char key) const;
 
 };
 
@@ -51,20 +50,19 @@ namespace framework {
 
 class ControlsKeyboard {
 private:
-	Keyboard m_keyboard;
-
+	static Keyboard keyboard;
 protected:
 	void keyboard_press_key(unsigned char key, int x, int y);
 	void keyboard_release_key(unsigned char key, int x, int y);
-	void keyboard_invoke_update();
 
 public:
-	vdk::signal<void(const Keyboard &keyboard)> sig_keyboard_update;
-	vdk::signal<void(const Keyboard &keyboard, unsigned char key, int x, int y)> sig_keyboard_key_pressed;
-	vdk::signal<void(const Keyboard &keyboard, unsigned char key, int x, int y)> sig_keyboard_key_released;
+	vdk::signal<void(unsigned char key, int x, int y)> sig_keyboard_key_pressed;
+	vdk::signal<void(unsigned char key, int x, int y)> sig_keyboard_key_released;
 
 	KeyboardConnectRetVal connect_to_keyboard(UseKeyboard& uk);
 	KeyboardDisconnectRetVal disconnect_from_keyboard(UseKeyboard& uk);
+
+	static const Keyboard& get_keyboard_instance();
 };
 }
 
