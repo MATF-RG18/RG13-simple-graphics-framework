@@ -1,5 +1,5 @@
-#ifndef __KEYBOARD_H__
-#define __KEYBOARD_H__
+#ifndef __ABL_KEYBOARD_H__
+#define __ABL_KEYBOARD_H__
 #include <unordered_map>
 
 #include "../vdk/signals.h"
@@ -68,4 +68,4 @@ public:
 
 }
 
-#endif // __KEYBOARD_H__
+#endif // __ABL_KEYBOARD_H__

@@ -1,5 +1,5 @@
-#ifndef __MOUSE_H__
-#define __MOUSE_H__
+#ifndef __ABL_MOUSE_H__
+#define __ABL_MOUSE_H__
 #include <utility>
 #include <functional>
 #include "../vdk/signals.h"
@@ -84,4 +84,4 @@ public:
 }
 }
 
-#endif // __MOUSE_H__
+#endif // __ABL_MOUSE_H__
