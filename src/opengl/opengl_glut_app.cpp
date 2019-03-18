@@ -42,23 +42,23 @@ void OpenGLGlutApp::glut_on_mouse_button(int button, int state, int x, int y)
 		switch (button) {
 
 			case GLUT_LEFT_BUTTON : {
-				active_app.mouse_press_button(sgf::MouseButton::LEFT, x, y);
+				active_app.mouse_press_button(abl::MouseButton::LEFT, x, y);
 			} break;
 
 			case GLUT_RIGHT_BUTTON : {
-				active_app.mouse_press_button(sgf::MouseButton::RIGHT, x, y);
+				active_app.mouse_press_button(abl::MouseButton::RIGHT, x, y);
 			} break;
 
 			case GLUT_MIDDLE_BUTTON : {
-				active_app.mouse_press_button(sgf::MouseButton::MIDDLE, x, y);
+				active_app.mouse_press_button(abl::MouseButton::MIDDLE, x, y);
 			} break;
 
 			case 3: {
-				active_app.mouse_scroll(sgf::MouseScrollDirection::UP, x, y);
+				active_app.mouse_scroll(abl::MouseScrollDirection::UP, x, y);
 			} break;
 
 		        case 4: {
-				active_app.mouse_scroll(sgf::MouseScrollDirection::DOWN, x, y);
+				active_app.mouse_scroll(abl::MouseScrollDirection::DOWN, x, y);
 		          break;
 		        }
 	      }
@@ -68,15 +68,15 @@ void OpenGLGlutApp::glut_on_mouse_button(int button, int state, int x, int y)
 		switch (button) {
 
 			case GLUT_LEFT_BUTTON : {
-				active_app.mouse_release_button(sgf::MouseButton::LEFT, x, y);
+				active_app.mouse_release_button(abl::MouseButton::LEFT, x, y);
 			} break;
 
 			case GLUT_RIGHT_BUTTON : {
-				active_app.mouse_release_button(sgf::MouseButton::RIGHT, x, y);
+				active_app.mouse_release_button(abl::MouseButton::RIGHT, x, y);
 			} break;
 
 			case GLUT_MIDDLE_BUTTON : {
-				active_app.mouse_release_button(sgf::MouseButton::MIDDLE, x, y);
+				active_app.mouse_release_button(abl::MouseButton::MIDDLE, x, y);
 			} break;
 
 		}

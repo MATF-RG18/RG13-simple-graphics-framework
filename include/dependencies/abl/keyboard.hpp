@@ -1,10 +1,10 @@
-#ifndef __SGF_KEYBOARD_H__
-#define __SGF_KEYBOARD_H__
+#ifndef __KEYBOARD_H__
+#define __KEYBOARD_H__
 #include <unordered_map>
 
-#include "../dependencies/signals.h"
+#include "../vdk/signals.h"
 
-namespace sgf {
+namespace abl {
 
 /* Small data containing structures */
 /* Return values of connect/disconnect */
@@ -21,10 +21,10 @@ struct KeyboardDisconnectRetVal {
 
 class UseKeyboard;
 class Keyboard;
-namespace framework {class ControlsKeyboard;}
+namespace control {class ControlsKeyboard;}
 
 class UseKeyboard {
-friend framework::ControlsKeyboard;
+friend control::ControlsKeyboard;
 protected:
 	static const Keyboard &keyboard;
 
@@ -33,7 +33,7 @@ protected:
 };
 
 class Keyboard {
-friend class framework::ControlsKeyboard;
+friend class control::ControlsKeyboard;
 private:
 	std::unordered_map<unsigned char, bool> m_pressed_keys;
 
@@ -46,7 +46,7 @@ public:
 
 };
 
-namespace framework {
+namespace control {
 
 class ControlsKeyboard {
 private:
@@ -68,4 +68,4 @@ public:
 
 }
 
-#endif // __SGF_KEYBOARD_H__
+#endif // __KEYBOARD_H__

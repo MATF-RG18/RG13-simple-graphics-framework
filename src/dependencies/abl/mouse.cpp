@@ -1,11 +1,11 @@
-#include "../../include/sgf/mouse.hpp"
+#include "../../../include/dependencies/abl/mouse.hpp"
 
-namespace sgf {
+namespace abl {
 
-Mouse framework::ControlsMouse::mouse;
-const Mouse& UseMouse::mouse = framework::ControlsMouse::get_mouse_instance();
+Mouse control::ControlsMouse::mouse;
+const Mouse& UseMouse::mouse = control::ControlsMouse::get_mouse_instance();
 
-const Mouse& framework::ControlsMouse::get_mouse_instance() {
+const Mouse& control::ControlsMouse::get_mouse_instance() {
 	return mouse;
 }
 
@@ -31,25 +31,25 @@ const std::tuple<int, int>& Mouse::position() const {
 	return m_position;
 }
 
-void framework::ControlsMouse::mouse_move(int x, int y, int x_old, int y_old) {
+void control::ControlsMouse::mouse_move(int x, int y, int x_old, int y_old) {
 	mouse.move(x, y);
 	sig_mouse_moved.emit(x, y, x_old, y_old);
 }
 
-void framework::ControlsMouse::mouse_press_button(MouseButton button, int x, int y) {
+void control::ControlsMouse::mouse_press_button(MouseButton button, int x, int y) {
        	mouse.press_button(button);
 	sig_mouse_button_pressed.emit(button, x, y);
 }
 
-void framework::ControlsMouse::mouse_release_button(MouseButton button, int x, int y) {
+void control::ControlsMouse::mouse_release_button(MouseButton button, int x, int y) {
 	mouse.release_button(button);
 	sig_mouse_button_released.emit(button, x, y);
 }
-void framework::ControlsMouse::mouse_scroll(MouseScrollDirection dir, int x, int y) {
+void control::ControlsMouse::mouse_scroll(MouseScrollDirection dir, int x, int y) {
 	sig_mouse_scroll.emit(dir, x, y);
 }
 
-MouseConnectRetVal framework::ControlsMouse::connect_to_mouse(UseMouse& um) {
+MouseConnectRetVal control::ControlsMouse::connect_to_mouse(UseMouse& um) {
 	unsigned move_id = sig_mouse_moved.connect(&um, &UseMouse::on_mouse_move);
 	unsigned button_press_id = sig_mouse_button_pressed.connect(&um, &UseMouse::on_mouse_button_press);
 	unsigned button_release_id = sig_mouse_button_released.connect(&um, &UseMouse::on_mouse_button_release);
@@ -58,7 +58,7 @@ MouseConnectRetVal framework::ControlsMouse::connect_to_mouse(UseMouse& um) {
 	return {move_id, button_press_id, button_release_id, scroll_id};
 }
 
-MouseDisconnectRetVal framework::ControlsMouse::disconnect_from_mouse(UseMouse& um) {
+MouseDisconnectRetVal control::ControlsMouse::disconnect_from_mouse(UseMouse& um) {
 	bool move_chk = sig_mouse_moved.disconnect(&um, &UseMouse::on_mouse_move);
 	bool button_press_chk = sig_mouse_button_pressed.disconnect(&um, &UseMouse::on_mouse_button_press);
 	bool button_release_chk = sig_mouse_button_released.disconnect(&um, &UseMouse::on_mouse_button_release);

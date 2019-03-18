@@ -8,7 +8,12 @@
 
 namespace sgf {
 
+/* Namespace renaming: for example vdk to sgf ... */
 using namespace vdk; // signal will look sgf::signal
+using namespace abl;
+namespace framework {
+	using namespace control;
+}
 
 class App : public sgf::framework::OpenGLGlutApp {
 };

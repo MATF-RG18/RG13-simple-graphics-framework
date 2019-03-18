@@ -1,10 +1,10 @@
-#ifndef __SGF_MOUSE_H__
-#define __SGF_MOUSE_H__
+#ifndef __MOUSE_H__
+#define __MOUSE_H__
 #include <utility>
 #include <functional>
-#include "../dependencies/signals.h"
+#include "../vdk/signals.h"
 
-namespace sgf {
+namespace abl {
 
 /* Small data containing structures */
 enum class MouseButton {NONE = 0, LEFT = 1, RIGHT = 2, MIDDLE = 3};
@@ -26,10 +26,10 @@ struct MouseDisconnectRetVal {
 
 class UseMouse;
 class Mouse;
-namespace framework {class ControlsMouse;}
+namespace control {class ControlsMouse;}
 
 class UseMouse {
-	friend class framework::ControlsMouse;
+	friend class control::ControlsMouse;
 protected:
 	static const Mouse &mouse;
 
@@ -41,7 +41,7 @@ public:
 };
 
 class Mouse {
-	friend class sgf::framework::ControlsMouse;
+	friend class abl::control::ControlsMouse;
 private:
 	std::unordered_map<MouseButton, bool> m_pressed_buttons;
 	std::tuple<int, int> m_position = std::make_tuple(0, 0);
@@ -56,7 +56,7 @@ public:
 	const std::tuple<int, int>& position() const;
 };
 
-namespace framework {
+namespace control {
 
 class ControlsMouse {
 private:
@@ -82,7 +82,6 @@ public:
 };
 
 }
-
 }
 
-#endif // __SGF_MOUSE_H__
+#endif // __MOUSE_H__

@@ -1,13 +1,13 @@
 #ifndef __SGF_FRAMEWORK_APP_H__
 #define __SGF_FRAMEWORK_APP_H__
 
-#include "keyboard.hpp"
-#include "mouse.hpp"
+#include "../dependencies/abl/keyboard.hpp"
+#include "../dependencies/abl/mouse.hpp"
 
 namespace sgf::framework {
 
-class App : public ControlsKeyboard,
-	    public ControlsMouse
+class App : public abl::control::ControlsKeyboard,
+	    public abl::control::ControlsMouse
 {
 private:
 protected:

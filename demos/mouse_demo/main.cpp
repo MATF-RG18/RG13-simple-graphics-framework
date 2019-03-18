@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../../sgf/include/sgf.hpp"
+#include "../../include/sgf.hpp"
 
 class Example :	public sgf::Entity,
 		public sgf::UseMouse {
