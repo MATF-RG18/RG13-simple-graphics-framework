@@ -3,7 +3,7 @@ MOUSE_DEMO = mouse_demo.out
 RESOURCE_DEMO = resource_demo.out 
 
 CXX     = g++
-CXXFLAGS = -std=c++17 -O3 #-I sgf/include
+CXXFLAGS = -std=c++17 -O3#-I sgf/include
 LDLIBS  = -lglut -lGLU -lGL
 WFLAGS = -Wall -Wextra -Wno-unused
 
