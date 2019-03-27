@@ -5,6 +5,9 @@
  * frameworks outside look for end user    */
 
 #include "opengl/opengl_glut_app.hpp"
+#include "dependencies/abl/keyboard.hpp"
+#include "dependencies/abl/mouse.hpp"
+#include "dependencies/abl/resource.hpp"
 
 namespace sgf {
 
