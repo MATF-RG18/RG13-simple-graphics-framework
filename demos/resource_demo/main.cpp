@@ -7,6 +7,10 @@ public:
 	Foo(const std::string &s) : s(s) {
 		std::cout << "Foo constructor called" << std::endl;
 	}
+
+	static Foo load(const std::string &s) {
+		return Foo(s);
+	}
 };
 
 void some_func() {
@@ -60,4 +64,20 @@ int main()
 	std::cout << sgf::resource<Foo>::get("lazyone").s << std::endl;
 	std::cout << sgf::resource<Foo>::get("lazyone").s << std::endl;
 
+	/* Bind */
+	/* _ could be placeholder for unbounded element */
+	/* To pass args by ref use std::ref or std::cref */
+	auto bf = std::bind(&Foo::load, "binded");
+	sgf::resource<Foo>::lazy_acquire("bf", bf);
+	std::cout << sgf::resource<Foo>::get("bf").s << std::endl;
+
+	std::vector<std::string> names{"bind1", "bind2", "bind3", "bind4"};
+	for (const auto &name : names) {
+		auto bn = std::bind(&Foo::load, name);
+		sgf::resource<Foo>::lazy_acquire(name, bn);
+	}
+
+	for (const auto &name : names) {
+		std::cout << sgf::resource<Foo>::get(name).s << std::endl;
+	}
 }
