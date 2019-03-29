@@ -88,7 +88,6 @@ const char* resource_exception::what() const throw () { return m_msg.c_str(); }
 
 
 /* ----- Resource definitions ----- */
-
 template <typename value_type, typename key_type>
 Resource<value_type, key_type>::Resource(std::function<value_type(void)> acq_func, bool count_use) : m_acquire_func(acq_func), m_count_use(count_use) {/*std::cerr << "Resource construcor called" << std::endl;*/}
 
