@@ -1,5 +1,5 @@
-#include <iostream>
 #include "../../include/sgf.hpp"
+#include <iostream>
 
 class Foo {
 public:
@@ -8,76 +8,65 @@ public:
 		std::cout << "Foo constructor called" << std::endl;
 	}
 
-	static Foo load(const std::string &s) {
-		return Foo(s);
+	~Foo() {
+		std::cout << "Foo destructor called" << std::endl;
+	}
+
+	static Foo load(std::string name) {
+		return Foo(name);
 	}
 };
 
-void some_func() {
-	std::cout << "From some_func: " << sgf::resource<Foo>::get("my_resource").s << std::endl;
-}
 
 int main()
 {
-        sgf::resource<Foo>::acquire("my_resource", Foo("One-foo"));
-        const Foo &f = sgf::resource<Foo>::get("my_resource");
-        std::cout << f.s << std::endl;
+	// Here is being maked and could be acquired after this
+	// First argument is name, second argument is func: how to acquire it */
+	sgf::Resource<Foo>::make_resource("MyResource", std::bind(Foo::load, "content of resource"));
 
-        try {
-        	sgf::resource<Foo>::acquire("my_resource", Foo("Two-foo"));
-        } catch(const sgf::resource_exception &e) {
-        	// Resource already acquired exception
-        	// could be throwed
-        	std::cout << e.what() << std::endl;
-        }
+	{ // block is lifespan for references inside
 
-        const Foo &f1 = sgf::resource<Foo>::get("my_resource");
+		// Here is resource being acquired for first time 
+		sgf::Resource_ref<Foo> rsc = sgf::Resource<Foo>::get("MyResource");
+		// You can use operator '->'
+		std::cout << rsc->s << std::endl;
+		
+		// You can use operator '*'
+		std::cout << (*rsc).s << std::endl;
 
-        std::cout << "Should not: " << sgf::resource<Foo>::is_acquired("randomname") << std::endl;
+		sgf::Resource_ref<Foo> rsc1 = sgf::Resource<Foo>::get("MyResource");
+		std::cout << rsc1->s << std::endl;
 
-        std::cout << f.s << " " << f1.s << std::endl;
-        std::cout << &f << " " << &f1 << std::endl;
+		// Copy constructor (both ref-s point to same resource)
+		sgf::Resource_ref<Foo> rsc2(rsc1);
+		std::cout << rsc2->s << std::endl;
 
-        std::vector<std::tuple<std::string, Foo>> vec = {{"me", Foo("me")}, {"you", Foo("you")}};
+		// Copy assignment operator (both ref-s point to same resource)
+		sgf::Resource_ref<Foo> rsc3 = rsc1;
+		std::cout << rsc2->s << std::endl;
 
-        for (const auto& [k, v] : vec) {
-        	try {
-        		sgf::resource<Foo>::acquire(k, v);
-        	} catch (const sgf::resource_exception &e) {
-        		std::cout << e.what();
-        	}
-        }
+		std::cout << "addr(rsc1): " << &rsc1 << ", adr(rsc2): " << &rsc2 << ", eq: " << (rsc2 == rsc3) << std::endl;
+		std::cout << "addr(rsc2): " << &rsc2 << ", adr(rsc3): " << &rsc3 << ", eq: " << (rsc2 == rsc3) << std::endl;
+		
+		/* You can get resource id also */
+		std::cout << "id: " << rsc2.id() << std::endl;
 
-        std::cout << sgf::resource<Foo>::get("me").s << std::endl;
-        some_func();
+	std::cout << "Still acquired" << std::endl;
+	} // Here is unacquired since no one refers to it
+	std::cout << "Unacquired" << std::endl;
 
-        /* Lazy eval */
-        sgf::resource<Foo>::lazy_acquire("lazy_res", []() { return Foo("lazy_res"); });
-        std::cout << "Is acquired: " << sgf::resource<Foo>::is_acquired("lazy_res") << std::endl;
-        
-        std::cout << sgf::resource<Foo>::get("lazy_res").s << std::endl;
+	/* Again acquiring */
+	sgf::Resource_ref<Foo> rsc = sgf::Resource<Foo>::get("MyResource");
+	std::cout << rsc->s << std::endl;
 
-        std::cout << "Is acquired: " << sgf::resource<Foo>::is_acquired("lazy_res") << std::endl;
+	sgf::Resource_ref<Foo> rsc2 = sgf::Resource<Foo>::get("MyResource");
+	std::cout << rsc2->s << std::endl;
+	
+	// This deletes even possibility to be acquired
+	// Resource<Foo>::delete_resource("MyResource"); // not needed
+	// From now, next line would result in error */
+	// Resource_ref<Foo> rsc2 = Resource<Foo>::get("MyResource");
 
-      	sgf::resource<Foo>::lazy_acquire("lazyone", []() {return Foo("lazyone");});
-	std::cout << "Already lazely acquired: lazyone" << std::endl;
-	std::cout << sgf::resource<Foo>::get("lazyone").s << std::endl;
-	std::cout << sgf::resource<Foo>::get("lazyone").s << std::endl;
+	return 0;
 
-	/* Bind */
-	/* _ could be placeholder for unbounded element */
-	/* To pass args by ref use std::ref or std::cref */
-	auto bf = std::bind(&Foo::load, "binded");
-	sgf::resource<Foo>::lazy_acquire("bf", bf);
-	std::cout << sgf::resource<Foo>::get("bf").s << std::endl;
-
-	std::vector<std::string> names{"bind1", "bind2", "bind3", "bind4"};
-	for (const auto &name : names) {
-		auto bn = std::bind(&Foo::load, name);
-		sgf::resource<Foo>::lazy_acquire(name, bn);
-	}
-
-	for (const auto &name : names) {
-		std::cout << sgf::resource<Foo>::get(name).s << std::endl;
-	}
-}
+} // Again unacquired // and deleted
