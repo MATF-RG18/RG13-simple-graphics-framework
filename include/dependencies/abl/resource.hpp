@@ -98,9 +98,13 @@ Resource<value_type, key_type>::~Resource() {
 
 template <typename value_type, typename key_type>
 void Resource<value_type, key_type>::make(const key_type& id, std::function<value_type(void)> acq_func, bool count_use) {
-	resources.emplace(typename std::map<key_type, Resource<value_type,key_type> >::value_type(id, Resource(acq_func, count_use)));
-	auto it = resources.find(id);
-	it->second.id_ptr = &it->first;
+	if (resources.find(id) == resources.end()) {
+		resources.emplace(typename std::map<key_type, Resource<value_type,key_type> >::value_type(id, Resource(acq_func, count_use)));
+		auto it = resources.find(id);
+		it->second.id_ptr = &it->first;
+		return;
+	}
+	throw resource_exception("Can not make resource: Resource already exist");
 }
 
 template <typename value_type, typename key_type>
