@@ -115,6 +115,7 @@ void Resource<value_type, key_type>::remove(const key_type& id) {
 	} else if (res_it == resources.end()) {
 		throw resource_exception("Can not remove resource: Resource does not exist");
 	} else {
+		res_it->second.flush(id);
 		resources.erase(res_it);
 	}
 }
