@@ -27,11 +27,21 @@ int main()
 	// if you dont want automatic resource management, pass false as third argument 
 	// if you pass false, use flush for flushing resource out of ram memory
 	// When you use get next time it will be loaded back to ram
-	Resource<Foo>::make("MyResource", std::bind(Foo::load, "content of resource")/*, false */ );
+	Resource<Foo>::make("MyResource", std::bind(Foo::load, "content of resource")/*, false*/ );
+
+	/* You could use manual acquire (to ensure resource loads to RAM before first get) *
+	 * Resource would be loaded to ram anyways with first Resource<Foo>::get() call */
+	Resource<Foo>::acquire("MyResource");
+	std::cout << "Acquired" << std::endl;
+
+	/* You can use flush if no one is using resource, to unload it from RAM */
+	Resource<Foo>::flush("MyResource");
+	std::cout << "Flushed" << std::endl;
 
 	{ // block is lifespan for references inside
 
-		// Here is resource being acquired for first time 
+		// Here is resource being acquired (loaded in RAM) since
+		// there is no one using it before and it is not already loaded
 		Resource_ref<Foo> rsc = Resource<Foo>::get("MyResource");
 		// You can use operator '->'
 		std::cout << rsc->s << std::endl;
@@ -57,9 +67,8 @@ int main()
 		std::cout << "id: " << rsc2.id() << std::endl;
 
 	std::cout << "Still acquired" << std::endl;
-	} // Here is unacquired since no one refers to it
+	} // Here is flushed since no one refers to it
 
-	//Resource<Foo>::flush("MyResource");
 	std::cout << "Unacquired" << std::endl;
 
 	/* Again acquiring */

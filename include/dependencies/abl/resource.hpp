@@ -2,9 +2,7 @@
 #define __ABL_RESOURCE_H__
 
 // TODO: Maybe replace map with unordered_map
-// Have Incomplete type issue, but
-// unordered_map has O(huge constant) get
-// map has O(log(n)) get
+// Have Incomplete type issue
 
 #include <string>
 #include <functional>
@@ -44,6 +42,8 @@ public:
 	unsigned use_count{0};
 	static void make(const key_type& id, std::function<value_type(void)> acq_func, bool count_use=true);
 	static void remove(const key_type& id);
+
+	static void acquire(const key_type& id);
 	static void flush(const key_type& id);
 
 	const key_type& id();
@@ -86,7 +86,6 @@ std::map<key_type, Resource<value_type, key_type>> Resource<value_type, key_type
 resource_exception::resource_exception(const std::string& msg) : m_msg(msg) { }
 const char* resource_exception::what() const throw () { return m_msg.c_str(); }
 
-
 /* ----- Resource definitions ----- */
 template <typename value_type, typename key_type>
 Resource<value_type, key_type>::Resource(std::function<value_type(void)> acq_func, bool count_use) : m_acquire_func(acq_func), m_count_use(count_use) {/*std::cerr << "Resource construcor called" << std::endl;*/}
@@ -113,6 +112,18 @@ void Resource<value_type, key_type>::remove(const key_type& id) {
 		throw resource_exception("Can not remove resource: Resource does not exist");
 	} else {
 		resources.erase(res_it);
+	}
+}
+
+template <typename value_type, typename key_type>
+void Resource<value_type, key_type>::acquire(const key_type& id) {
+	auto it = resources.find(id);
+	if (it != resources.end()) {
+		if (it->second.m_data_ptr == nullptr) {
+			it->second.m_data_ptr = new value_type(std::invoke(it->second.m_acquire_func));
+		}
+	} else {
+		throw resource_exception("Can not acquire resource: Resource does not exist");
 	}
 }
 
