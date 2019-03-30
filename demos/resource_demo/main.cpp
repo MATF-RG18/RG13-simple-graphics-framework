@@ -69,7 +69,7 @@ int main()
 	std::cout << "Still acquired" << std::endl;
 	} // Here is flushed since no one refers to it
 
-	std::cout << "Unacquired" << std::endl;
+	std::cout << "Flushed (no one using it)" << std::endl;
 
 	/* Again acquiring */
 	{
@@ -78,6 +78,8 @@ int main()
 		Resource_ref<Foo> rs1 = Resource<Foo>::get("MyResource");
 		std::cout << rsc->s << std::endl;
 	}
+
+	std::cout << "Flushed (again no one using it)" << std::endl;
 
 	//Resource_ref<Foo> rsc2 = Resource<Foo>::get("MyResource");
 	//std::cout << rsc2->s << std::endl;
